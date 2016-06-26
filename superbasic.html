@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>I'm in a React app!</title>
+	</head>
+	<body>
+		<div id="react-app"></div>
+		<script src="https://cdn.jsdelivr.net/react/0.14.0-rc1/react.js"></script>
+		<script src="https://cdn.jsdelivr.net/react/0.14.0-rc1/react-dom.js"></script>
+		<script>
+			// Part 1
+			// var rootElement = 
+			// 	React.createElement('div', {},
+			// 		React.createElement('h1', {}, "Contacts"),
+			// 		React.createElement('ul', {}, 
+			// 			React.createElement('li', {},
+			// 				React.createElement('h2', {}, "Henry Tam"),
+			// 				React.createElement('a', {href: 'mailto:henrywtam@gmail.com'}, 'henrywtam@gmail.com')
+			// 			),
+			// 			React.createElement('li', {},
+			// 				React.createElement('h2', {}, "Mia Liu"),
+			// 				React.createElement('a', {href: 'mailto:mialiu@gmail.com'}, 'mialiu@gmail.com')
+			// 			)
+			// 		)
+			// 	)
+			// Part 2
+			// var contacts = [
+			// 	{key: 1, name: "Henry Tam", email: "henrywtam@gmail.com"},
+			// 	{key: 2, name: "Mia Liu", email: "mialiu@gmail.com"}
+			// 	// {key: 2, name: "Mia Liu"}
+			// ]
+			// var listElements = contacts
+			// 	.filter(function(contact) { return contact.email; })
+			// 	.map(function(contact) {
+			// 		return React.createElement('li', {key: contact.key},
+			// 			React.createElement('h2', {}, contact.name),
+			// 			React.createElement('a', {href: 'mailto:'+contact.email}, contact.email)
+			// 		)
+			// 	})
+
+			// var rootElement =
+			// 	React.createElement('div', {},
+			// 		React.createElement('h1', {}, "Contacts"),
+			// 		// If your children is an array, you will need to give each a unique 'key' prop
+			// 		React.createElement('ul', {}, listElements)
+			// 	)
+			//Part 3
+			// var ContactItem = React.createClass({
+			// 	propTypes: {
+			// 		name: React.PropTypes.string.isRequired
+			// 	},
+			// 	render: function() {
+			// 		return (
+			// 			React.createElement('li', {className: 'Contact'},
+			// 				React.createElement('h2', {className: 'Contact-name'}, this.props.name)
+			// 			)
+			// 		)
+			// 	}
+			// })
+			// 
+			// var listElements = contacts
+			// 	// .filter(function(contact) { return contact.email; })
+			// 	.map(function(contact) {
+			// 		return React.createElement(ContactItem, contact},
+			// 		)
+			// 	})
+
+			// var rootElement =
+			// 	React.createElement('div', {},
+			// 		React.createElement('h1', {}, "Contacts"),
+			// 		// If your children is an array, you will need to give each a unique 'key' prop
+			// 		React.createElement('ul', {}, listElements)
+			// 	)
+			// var rootElement = React.createElement(ContactItem, {name: "Henry Tam"})
+			//Part 4
+			var contacts = [
+				{key: 1, name: "Henry Tam", email: "henrywtam@gmail.com", description: "Meh."},
+				{key: 2, name: "Mia Liu", email: "mialiu@gmail.com"},
+				{key: 3, name: "Benji Tam", description: "Coolest. Dog. Ever."}
+			]
+
+			var newContact = {name: "", email: "", description: ""};
+
+			var ContactItem = React.createClass({
+				propTypes: {
+					name: React.PropTypes.string.isRequired,
+					email: React.PropTypes.string.isRequired,
+					description: React.PropTypes.string,
+				},
+
+				render: function() {
+					return (
+						React.createElement('li', {className: 'ContactItem'},
+							React.createElement('h2', {className: 'ContactItem-name'}, this.props.name),
+							React.createElement('a', {className: 'ContactItem-email', href: 'mailto:'+this.props.email}, this.props.email),
+							React.createElement('div', {className: 'ContactItem-description'}, this.props.description)
+						)
+					)
+				},
+			})
+
+			var ContactForm = React.createClass({
+				propTypes: {
+					contact: React.PropTypes.object.isRequired
+				},
+
+				render: function() {
+					return (
+						React.createElement('form', {},
+							React.createElement('input', {
+								type: 'text',
+								placeholder: 'Name (required)',
+								value: this.props.contact.name
+							}),
+							React.createElement('input', {
+								type: 'email',
+								placeholder: 'Email',
+								value: this.props.contact.email
+							}),
+							React.createElement('textarea', {
+								placeholder: 'Description',
+								value: this.props.contact.description
+							}),
+							React.createElement('button', {type: 'submit'}, "Add Contact")
+						)
+					)
+				}
+			})
+
+			var contactItemElements = contacts
+				.filter(function(contact) { return contact.email; })
+				.map(function(contact) {
+					return React.createElement(ContactItem, contact)
+				})
+
+			var rootElement =
+				React.createElement('div', {},
+					React.createElement('h1', {}, "Contacts"),
+					React.createElement('ul', {}, contactItemElements),
+					React.createElement(ContactForm, {contact: newContact})
+				)
+
+			ReactDOM.render(rootElement, document.getElementById('react-app'))
+		</script>
+	</body>
+</html>
